@@ -1,40 +1,63 @@
 /**
  * Created by yth on 2018/2/6.
- * 书籍类，保存书籍的基本渲染信息
  */
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import * as BooksAPI from './BooksAPI'
+import BookImage from './BookImage'
+import BookShelfChange from './BookShelfChange'
 
 class Book extends Component {
+  /**
+   * 书籍组件
+   * @param id 书籍id
+   * @param imageUrl 书籍封面链接
+   * @param title 书籍名
+   * @param authors 书籍作者，字符串数组
+   * @param shelf 所在书架
+   * @param onChangeBook 书架改变时更新书架所调用的方法
+   * @type {{
+   * id: (string), imageUrl: (string), title: (string),
+   * authors: (array), shelf: (string), onChangeBook: (function)
+   * }}
+   */
   static propTypes = {
     id: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     authors: PropTypes.array.isRequired,
-    shelf: PropTypes.string.isRequired
+    shelf: PropTypes.string.isRequired,
+    onChangeBook: PropTypes.func.isRequired
   }
 
-  state = {
-    shelf: 'None'
+  /**
+   * 将书籍改变到指定书架，并调用更新书架的方法
+   * @param newShelf string 指定迁移到的书架，值为["wantToRead", "currentlyReading", "read"]之一
+   */
+  updateBook = (newShelf) => {
+    const {id, imageUrl, title, authors, shelf, onChangeBook} = this.props
+    BooksAPI.update({id: id}, newShelf).then(v => {
+      if (v[newShelf].indexOf(id) >= 0) {
+        onChangeBook({
+          id: id,
+          imageUrl: imageUrl,
+          title: title,
+          authors: authors,
+          shelf: newShelf,
+        }, shelf)
+      }
+    })
   }
 
   render() {
-    const {id, imageUrl, title, authors, shelf} = this.props
+    const {imageUrl, title, authors, shelf} = this.props
 
     return(
       <li>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url("${imageUrl}")` }}></div>
-            <div className="book-shelf-changer">
-              <select defaultValue={shelf}>
-                <option value="none" disabled="disabled">Move to...</option>
-                <option value="currentlyReading" disabled={'currentlyReading' === shelf ? 'disabled' : ''}>Currently Reading</option>
-                <option value="wantToRead" disabled={'wantToRead' === shelf ? 'disabled' : ''}>Want to Read</option>
-                <option value="read" disabled={'read' === shelf ? 'disabled' : ''}>Read</option>
-                <option value="none">None</option>
-              </select>
-            </div>
+            <BookImage imageUrl={imageUrl}/>
+            <BookShelfChange shelf={shelf} onChangeShelf={this.updateBook}/>
           </div>
           <div className="book-title">{title}</div>
           <div className="book-authors">{authors.join()}</div>
