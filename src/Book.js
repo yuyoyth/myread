@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI'
+import {update as updateBookData} from './BooksAPI'
 import BookImage from './BookImage'
 import BookShelfChange from './BookShelfChange'
 
@@ -36,7 +36,7 @@ class Book extends Component {
    */
   updateBook = (newShelf) => {
     const {id, imageUrl, title, authors, shelf, onChangeBook} = this.props
-    BooksAPI.update({id: id}, newShelf).then(v => {
+    updateBookData({id: id}, newShelf).then(v => {
       if (v[newShelf].indexOf(id) >= 0) {
         onChangeBook({
           id: id,

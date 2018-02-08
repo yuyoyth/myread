@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import Book from './Book'
+import BookList from './BookList'
 
 class BookShelf extends Component {
   /**
@@ -19,6 +19,16 @@ class BookShelf extends Component {
     onChangeBook: PropTypes.func.isRequired
   }
 
+  /**
+   * 书架种类，字符串数组，顺序敏感，影响书架渲染顺序
+   * @type {array}
+   */
+  static kinds = [
+    'currentlyReading',
+    'wantToRead',
+    'read'
+  ]
+
   //存储书架种类对应的书架名称
   static title = {
     currentlyReading: 'Currently Reading',
@@ -28,24 +38,11 @@ class BookShelf extends Component {
 
   render() {
     const {kind, bookList, onChangeBook} = this.props
-
     return(
       <div className="bookshelf">
         <h2 className="bookshelf-title">{BookShelf.title[kind]}</h2>
         <div className="bookshelf-books">
-          <ol className="books-grid">
-            {bookList.map(book =>
-              <Book
-                key={book.id}
-                id={book.id}
-                imageUrl={book.imageUrl}
-                title={book.title}
-                authors={book.authors}
-                shelf={book.shelf}
-                onChangeBook={onChangeBook}
-              />
-            )}
-          </ol>
+          <BookList bookList={bookList} onChangeBook={onChangeBook}/>
         </div>
       </div>
     )

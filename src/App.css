@@ -172,3 +172,37 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+.search-books-bomb ul li {
+  display: list-item;
+}
+
+.search-books-bomb {
+  width: 100%;
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 3px #ededed;
+}
+
+.search-books-bomb ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search-books-bomb li {
+  width: 100%;
+  color: #000;
+  font: 14px Arial;
+  line-height: 22px;
+  padding: 5px 20px;
+  position: relative;
+  cursor: default;
+}
+
+.search-books-bomb li:hover {
+  background-color: #ededed;
+}
