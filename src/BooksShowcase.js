@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import sortBy from 'sort-by'
 import {getAll as getAllData} from './BooksAPI'
 import BookShelf from './BookShelf'
+import Book from './Book'
 
 class BooksShowcase extends Component {
   /**
@@ -35,13 +36,7 @@ class BooksShowcase extends Component {
 
       //遍历取得的书籍数据
       for (let i = 0; i < v.length; i++) {
-        let book = {
-          id: v[i].id,
-          imageUrl: v[i].imageLinks.smallThumbnail,
-          title: v[i].title,
-          authors: v[i].authors,
-          shelf: v[i].shelf
-        }
+        let book = Book.createBookObj(v[i])
 
         //将书籍分类
         BookShelf.kinds.forEach(v => {

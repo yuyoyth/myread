@@ -30,6 +30,21 @@ class Book extends Component {
     onChangeBook: PropTypes.func.isRequired
   }
 
+  static createBookObj(element) {
+    let book = {
+      id: !element.id ? '' : element.id,
+      imageUrl: !element.imageLinks.smallThumbnail
+        ? (!element.imageLinks.thumbnail
+          ? ''
+          : element.imageLinks.thumbnail)
+        : element.imageLinks.smallThumbnail,
+      title: !element.title ? '' : element.title,
+      authors: !element.authors ? [] : element.authors,
+      shelf: !element.shelf ? 'none' : element.shelf
+    }
+    return book
+  }
+
   /**
    * 将书籍改变到指定书架，并调用更新书架的方法
    * @param newShelf string 指定迁移到的书架，值为["wantToRead", "currentlyReading", "read"]之一
@@ -38,6 +53,7 @@ class Book extends Component {
     const {id, imageUrl, title, authors, shelf, onChangeBook} = this.props
     updateBookData({id: id}, newShelf).then(v => {
       if (v[newShelf].indexOf(id) >= 0) {
+        console.log(`Change book ${id} ${shelf} to ${newShelf}`)
         onChangeBook({
           id: id,
           imageUrl: imageUrl,
@@ -51,7 +67,6 @@ class Book extends Component {
 
   render() {
     const {imageUrl, title, authors, shelf} = this.props
-
     return(
       <li>
         <div className="book">
