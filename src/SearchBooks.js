@@ -3,36 +3,52 @@
  * 书本搜索类，实现搜索功能，渲染搜索出的书籍列表
  */
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import {search as searchData} from './BooksAPI'
+import InputBox from './InputBox'
+import BookList from './BookList'
+import Book from './Book'
 
 class SearchBooks extends Component {
   static propTypes = {
 
   }
 
+  state = {
+    books: [],
+    inputBoxItemsDisplay: true
+  }
+
+  searchBooks = (value) => {
+    searchData(value).then(re => {
+      this.setState({
+        books: (!re || re.hasOwnProperty('error'))
+          ? []
+          : re.map(v => Book.createBookObj(v))
+      })
+    })
+  }
+
+  mouseClick(obj) {
+    let inputBox = document.getElementById('inputBox')
+    let posValue = inputBox.compareDocumentPosition(obj)
+    this.setState({
+      inputBoxItemsDisplay: (posValue&16) > 0
+    })
+  }
+
   render() {
     return (
-      <div className="search-books">
+      <div className="search-books" onClick={(e) => this.mouseClick(e.target)}>
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
-          <div className="search-books-input-wrapper">
-            {/*
-             NOTES: The search from BooksAPI is limited to a particular set of search terms.
-             You can find these search terms here:
-             https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-             However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-             you don't find a specific author or title. Every search is limited by search terms.
-             */}
-            <input type="text" placeholder="Search by title or author"/>
-
-          </div>
+          <InputBox
+            clickInputOrItems={this.state.inputBoxItemsDisplay}
+            onSearch={this.searchBooks}
+          />
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-
-          </ol>
+          <BookList bookList={this.state.books} onChangeBook={()=>{}}/>
         </div>
       </div>
     )

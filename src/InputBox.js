@@ -9,7 +9,8 @@ import searchTerm from './static/SEARCH_TERMS.md'
 
 class InputBox extends Component {
   static propTypes = {
-    onSearch: PropTypes.func.isRequired
+    onSearch: PropTypes.func.isRequired,
+    clickInputOrItems: PropTypes.bool.isRequired
   }
 
   state = {
@@ -52,7 +53,7 @@ class InputBox extends Component {
 
   render() {
     return(
-      <div className="search-books-input-wrapper">
+      <div id="inputBox" className="search-books-input-wrapper">
         <input
           type="text"
           placeholder="Search by title or author"
@@ -60,7 +61,7 @@ class InputBox extends Component {
           onChange={(event) => this.updateQuery(event.target.value)}
         />
         <InputBoxItems
-          display={this.state.itemsDisplay}
+          display={this.state.itemsDisplay && this.props.clickInputOrItems}
           items={this.state.items}
           onClickItem={this.clickItem}
         />
