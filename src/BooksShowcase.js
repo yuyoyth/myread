@@ -3,77 +3,26 @@
  */
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import sortBy from 'sort-by'
-import {getAll as getAllData} from './BooksAPI'
 import BookShelf from './BookShelf'
-import Book from './Book'
 
 class BooksShowcase extends Component {
   /**
    * 展示台组件，展示所有书架内容
    */
 
-  constructor(props) {
-    super(props)
-    //初始化state，为每个书架创建数组
-    let stateObj = {}
-    BookShelf.kinds.forEach(v => {
-      stateObj[v] = []
-    })
-    this.state = stateObj
-  }
-
-  /**
-   * 从服务端获得所有在书架上的书籍，并将书籍分类到各个书籍渲染
-   */
-  getAllBooks = () => {
-    getAllData().then(v => {
-      //初始化存放书籍的各个书架数组
-      let stateObj = {}
-      BookShelf.kinds.forEach(v => {
-        stateObj[v] = []
-      })
-
-      //遍历取得的书籍数据
-      for (let i = 0; i < v.length; i++) {
-        let book = Book.createBookObj(v[i])
-
-        //将书籍分类
-        BookShelf.kinds.forEach(v => {
-          if (book.shelf === v) {
-            stateObj[v].push(book)
-            return
-          }
-        })
-      }
-
-      this.setState(stateObj)
-    })
-  }
-
-  /**
-   * 书籍迁移时改变对应的书架的书籍数组，并重新渲染
-   * @param book object 包含改变后的书籍信息
-   * @param oldShelf string 书籍改变前所在的书架类别
-   */
-  changeABook = (book, oldShelf) => {
-    const newShelf = book.shelf
-    let newShelfArray = this.state[newShelf]
-    newShelfArray.push(book)
-    let newStateObj = {}
-    newStateObj[oldShelf] = this.state[oldShelf].filter(v => v.id !== book.id)
-    newStateObj[newShelf] = newShelfArray
-    this.setState(newStateObj)
-  }
-
-  componentDidMount() {
-    this.getAllBooks()
+  static propTypes = {
+    books: PropTypes.object.isRequired,
+    onChangeBook: PropTypes.func.isRequired
   }
 
   render() {
     //对书架中的书籍按照名称排序，控制排版
+    let booksList = {}
     BookShelf.kinds.forEach(v => {
-      this.state[v].sort(sortBy('title'))
+      booksList[v] = this.props.books[v]
+      booksList[v].sort(sortBy('title'))
     })
 
     return (
@@ -87,8 +36,8 @@ class BooksShowcase extends Component {
               <BookShelf
                 key={v}
                 kind={v}
-                bookList={this.state[v]}
-                onChangeBook={this.changeABook}
+                bookList={booksList[v]}
+                onChangeBook={this.props.onChangeBook}
               />
             ))}
           </div>
