@@ -14,15 +14,16 @@ class BookShelfChange extends Component {
   static propTypes = {
     shelf: PropTypes.string.isRequired,
     onChangeShelf: PropTypes.func.isRequired
-  }
+  };
 
   render() {
-    const {shelf, onChangeShelf} = this.props
+    const {shelf, onChangeShelf} = this.props;
     return(
       <div className="book-shelf-changer">
         <select
           defaultValue={shelf}
           onChange={(event) => {
+            //过滤选中'None'
             event.target.value !== 'none' && onChangeShelf(event.target.value);
           }}
         >

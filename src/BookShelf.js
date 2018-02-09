@@ -17,27 +17,24 @@ class BookShelf extends Component {
     kind: PropTypes.string.isRequired,
     bookList: PropTypes.array.isRequired,
     onChangeBook: PropTypes.func.isRequired
-  }
+  };
 
-  /**
-   * 书架种类，字符串数组，顺序敏感，影响书架渲染顺序
-   * @type {array}
-   */
+  //书架种类，字符串数组，顺序敏感，影响书架渲染顺序
   static kinds = [
     'currentlyReading',
     'wantToRead',
     'read'
-  ]
+  ];
 
   //存储书架种类对应的书架名称
   static title = {
     currentlyReading: 'Currently Reading',
     wantToRead: 'Want to Read',
     read: 'Read'
-  }
+  };
 
   render() {
-    const {kind, bookList, onChangeBook} = this.props
+    const {kind, bookList, onChangeBook} = this.props;
     return(
       <div className="bookshelf">
         <h2 className="bookshelf-title">{BookShelf.title[kind]}</h2>

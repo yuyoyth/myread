@@ -28,15 +28,18 @@ class Book extends Component {
     authors: PropTypes.array.isRequired,
     shelf: PropTypes.string.isRequired,
     onChangeBook: PropTypes.func.isRequired
-  }
+  };
 
+  /**
+   * 根据含有一本数据众多数据的对象创建格式化的书籍对象
+   * @param element 含有一本书籍数据的对象
+   * @returns {{id: string, imageUrl: string, title: string, authors: Array, shelf: string}}
+   */
   static createBookObj(element) {
     return {
       id: !element.id ? '' : element.id,
       imageUrl: !element.imageLinks.smallThumbnail
-        ? (!element.imageLinks.thumbnail
-          ? ''
-          : element.imageLinks.thumbnail)
+        ? (!element.imageLinks.thumbnail ? '' : element.imageLinks.thumbnail)
         : element.imageLinks.smallThumbnail,
       title: !element.title ? '' : element.title,
       authors: !element.authors ? [] : element.authors,
@@ -49,7 +52,7 @@ class Book extends Component {
    * @param newShelf string 指定迁移到的书架，值为["wantToRead", "currentlyReading", "read"]之一
    */
   updateBook = (newShelf) => {
-    const {id, imageUrl, title, authors, onChangeBook, shelf} = this.props
+    const {id, imageUrl, title, authors, onChangeBook, shelf} = this.props;
     updateBookData({id: id}, newShelf).then(v => {
       if (v[newShelf].indexOf(id) >= 0) {
         onChangeBook({
@@ -61,10 +64,10 @@ class Book extends Component {
         }, shelf)
       }
     })
-  }
+  };
 
   render() {
-    const {imageUrl, title, authors, shelf} = this.props
+    const {imageUrl, title, authors, shelf} = this.props;
     return(
       <li>
         <div className="book">

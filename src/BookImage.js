@@ -12,7 +12,7 @@ class BookImage extends Component {
    */
   static propTypes = {
     imageUrl: PropTypes.string.isRequired
-  }
+  };
 
   render() {
     return(
@@ -22,7 +22,7 @@ class BookImage extends Component {
           width: 128,
           height: 188,
           backgroundImage: `url("${this.props.imageUrl}")`
-        }}></div>
+        }}/>
     )
   }
 }

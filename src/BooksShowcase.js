@@ -9,21 +9,23 @@ import BookShelf from './BookShelf'
 
 class BooksShowcase extends Component {
   /**
-   * 展示台组件，展示所有书架内容
+   * 展示台组件
+   * @param books 包括三种书架数据的对象
+   * @param onChangeBook 书籍改变书架时的回调方法
+   * @type {{books: *, onChangeBook: *}}
    */
-
   static propTypes = {
     books: PropTypes.object.isRequired,
     onChangeBook: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     //对书架中的书籍按照名称排序，控制排版
-    let booksList = {}
+    let booksList = {};
     BookShelf.kinds.forEach(v => {
-      booksList[v] = this.props.books[v]
+      booksList[v] = this.props.books[v];
       booksList[v].sort(sortBy('title'))
-    })
+    });
 
     return (
       <div className="list-books">

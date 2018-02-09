@@ -1,3 +1,19 @@
+应用组件结构
+BooksApp
+├── SearchBooks #搜索页面
+│   ├── InputBox #输入框
+│   │  ├── InputBoxItems #搜索候选项
+│   ├── BookList #书籍列表
+│       ├── Book #书籍
+│           ├── BookImage #书籍封面
+│           ├── BookShelfChange #书籍所属书架切换按钮
+├── BooksShowcase #书籍展示台
+    ├── BookShelf #书架
+        ├── BookList #书籍列表
+            ├── Book #书籍
+                ├── BookImage #书籍封面
+                ├── BookShelfChange #书籍所属书架切换按钮
+
 # MyReads Project
 
 This is the starter template for the final assessment project for Udacity's React Fundamentals course. The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.

@@ -15,10 +15,10 @@ class BookList extends Component {
   static propTypes = {
     bookList: PropTypes.array.isRequired,
     onChangeBook: PropTypes.func.isRequired
-  }
+  };
 
   render() {
-    const {bookList, onChangeBook} = this.props
+    const {bookList, onChangeBook} = this.props;
     return(
       <ol className="books-grid">
         {bookList.map(book =>
