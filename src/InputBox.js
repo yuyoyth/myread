@@ -10,7 +10,6 @@ import searchTerm from './static/SEARCH_TERMS.md'
 class InputBox extends Component {
   static propTypes = {
     onSearch: PropTypes.func.isRequired,
-    clickInputOrItems: PropTypes.bool.isRequired
   }
 
   state = {
@@ -51,6 +50,13 @@ class InputBox extends Component {
     this.props.onSearch(value)
   }
 
+  mouseClick(obj) {
+    const inputBox = document.getElementById('inputBox')
+    const posValue = inputBox.compareDocumentPosition(obj)
+    let bomb = document.getElementsByClassName('search-books-bomb')[0]
+    bomb.style.display = ((posValue&16) > 0) ? 'block' : 'none'
+  }
+
   render() {
     return(
       <div id="inputBox" className="search-books-input-wrapper">
@@ -61,7 +67,7 @@ class InputBox extends Component {
           onChange={(event) => this.updateQuery(event.target.value)}
         />
         <InputBoxItems
-          display={this.state.itemsDisplay && this.props.clickInputOrItems}
+          display={this.state.itemsDisplay}
           items={this.state.items}
           onClickItem={this.clickItem}
         />

@@ -19,7 +19,6 @@ class BookList extends Component {
 
   render() {
     const {bookList, onChangeBook} = this.props
-
     return(
       <ol className="books-grid">
         {bookList.map(book =>

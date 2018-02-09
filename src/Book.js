@@ -31,7 +31,7 @@ class Book extends Component {
   }
 
   static createBookObj(element) {
-    let book = {
+    return {
       id: !element.id ? '' : element.id,
       imageUrl: !element.imageLinks.smallThumbnail
         ? (!element.imageLinks.thumbnail
@@ -42,7 +42,6 @@ class Book extends Component {
       authors: !element.authors ? [] : element.authors,
       shelf: !element.shelf ? 'none' : element.shelf
     }
-    return book
   }
 
   /**
@@ -50,10 +49,9 @@ class Book extends Component {
    * @param newShelf string 指定迁移到的书架，值为["wantToRead", "currentlyReading", "read"]之一
    */
   updateBook = (newShelf) => {
-    const {id, imageUrl, title, authors, shelf, onChangeBook} = this.props
+    const {id, imageUrl, title, authors, onChangeBook, shelf} = this.props
     updateBookData({id: id}, newShelf).then(v => {
       if (v[newShelf].indexOf(id) >= 0) {
-        console.log(`Change book ${id} ${shelf} to ${newShelf}`)
         onChangeBook({
           id: id,
           imageUrl: imageUrl,
