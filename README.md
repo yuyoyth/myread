@@ -1,4 +1,5 @@
 应用组件结构
+```bash
 BooksApp
 ├── SearchBooks #搜索页面
 │   ├── InputBox #输入框
@@ -13,6 +14,7 @@ BooksApp
             ├── Book #书籍
                 ├── BookImage #书籍封面
                 ├── BookShelfChange #书籍所属书架切换按钮
+```
 
 # MyReads Project
 
